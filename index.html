@@ -219,18 +219,62 @@
   .stat .big{font-family:"Baloo 2";font-weight:700;font-size:2.4rem;color:var(--lime);line-height:1}
   .stat .lab{margin-top:8px;font-size:.96rem;color:rgba(255,255,255,.82);font-weight:600}
 
-  /* ---------- stockist cta ---------- */
+  /* ---------- contact / stockist ---------- */
   .stockist{background:var(--cloud)}
   .stock-card{
     background:linear-gradient(135deg,var(--lime),var(--lime-deep));
-    border-radius:30px;padding:64px 48px;text-align:center;color:var(--green);
+    border-radius:30px;padding:0;color:var(--green);
     box-shadow:0 30px 60px -28px rgba(143,184,28,.7);position:relative;overflow:hidden;
+    display:grid;grid-template-columns:1fr 1fr;
   }
   .stock-card::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 120% at 90% 10%,rgba(255,255,255,.4),transparent 55%);pointer-events:none}
-  .stock-card .eyebrow{color:var(--green);margin-bottom:1em;position:relative}
-  .stock-card h2{font-size:clamp(2rem,4.4vw,3rem);font-weight:700;margin-bottom:.4em;position:relative}
-  .stock-card p{font-size:1.12rem;max-width:50ch;margin:0 auto 2em;font-weight:600;position:relative}
-  .stock-card .btn{position:relative}
+  .stock-left{padding:56px 48px;position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center}
+  .stock-left .eyebrow{color:var(--green);margin-bottom:1em}
+  .stock-left h2{font-size:clamp(1.8rem,3.4vw,2.7rem);font-weight:700;margin-bottom:.5em}
+  .stock-left p{font-size:1.06rem;font-weight:600;max-width:36ch;opacity:.88}
+  .stock-right{
+    background:rgba(255,255,255,.22);backdrop-filter:blur(6px);
+    border-left:1px solid rgba(255,255,255,.35);
+    padding:48px 44px;position:relative;z-index:2;
+  }
+  .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .cf-group{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+  .cf-group label{font-weight:700;font-size:.86rem;color:var(--green);text-transform:uppercase;letter-spacing:.12em}
+  .cf-group input,.cf-group select,.cf-group textarea{
+    font-family:"Mulish",sans-serif;font-size:.98rem;font-weight:600;color:var(--ink);
+    background:rgba(255,255,255,.85);border:2px solid rgba(255,255,255,.6);
+    border-radius:12px;padding:.72em 1em;outline:none;transition:border-color .2s,background .2s;
+    width:100%;
+  }
+  .cf-group input:focus,.cf-group select:focus,.cf-group textarea:focus{
+    border-color:var(--blue);background:#fff;
+  }
+  .cf-group textarea{resize:vertical;min-height:90px}
+  .cf-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A597A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9em center;padding-right:2.4em}
+  .cf-submit{width:100%;margin-top:4px;font-size:1.02rem;justify-content:center}
+  .cf-success{
+    display:none;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;gap:14px;height:100%;padding:20px 0;
+  }
+  .cf-success.show{display:flex}
+  .cf-success .tick{
+    width:60px;height:60px;border-radius:50%;background:var(--blue);
+    display:grid;place-items:center;flex:none;
+    box-shadow:0 10px 26px -10px rgba(6,44,110,.7);
+  }
+  .cf-success .tick svg{width:28px;height:28px;color:#fff}
+  .cf-success h3{font-size:1.45rem;font-weight:700;color:var(--green)}
+  .cf-success p{font-size:1rem;color:var(--green);opacity:.82;max-width:28ch;font-weight:600}
+  @media(max-width:920px){
+    .stock-card{grid-template-columns:1fr}
+    .stock-left{padding:48px 36px 0}
+    .stock-right{border-left:none;border-top:1px solid rgba(255,255,255,.35);padding:36px}
+  }
+  @media(max-width:680px){
+    .cf-row{grid-template-columns:1fr}
+    .stock-left{padding:40px 26px 0}
+    .stock-right{padding:28px 26px 40px}
+  }
 
   /* ---------- footer ---------- */
   footer{background:var(--blue-night);color:rgba(255,255,255,.7);padding:64px 0 30px}
@@ -265,7 +309,6 @@
     .grid4{grid-template-columns:1fr}
     .product .body{padding:36px 28px}
     .stat .big{font-size:2rem}
-    .stock-card{padding:48px 26px}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -393,14 +436,65 @@
   </div>
 </section>
 
-<!-- ============ STOCKIST CTA ============ -->
+<!-- ============ CONTACT / STOCKIST ============ -->
 <section class="stockist pad" id="stockist">
   <div class="wrap">
     <div class="stock-card reveal">
-      <span class="eyebrow"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.4 7.6L22 10l-7.6 2.4L12 20l-2.4-7.6L2 10l7.6-2.4z"/></svg>Stock Mendez</span>
-      <h2>Bring Mendez to your shelf</h2>
-      <p>Run a shop, a market stall or a distribution route? Mendez is easy to stock, easy to sell, and the kind of clean customers come back for. Let's talk about getting it to your customers.</p>
-      <a href="#" class="btn btn-blue">Become a stockist</a>
+
+      <!-- LEFT: copy -->
+      <div class="stock-left">
+        <span class="eyebrow"><svg class="spark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.4 7.6L22 10l-7.6 2.4L12 20l-2.4-7.6L2 10l7.6-2.4z"/></svg>Stock Mendez</span>
+        <h2>Bring Mendez to your shelf</h2>
+        <p>Run a shop, a market stall or a distribution route? Mendez is easy to stock, easy to sell, and the kind of clean customers come back for. Fill in the form and we'll be in touch.</p>
+      </div>
+
+      <!-- RIGHT: form -->
+      <div class="stock-right">
+        <div id="cfForm">
+          <div class="cf-row">
+            <div class="cf-group">
+              <label for="cf-name">Your name</label>
+              <input id="cf-name" type="text" placeholder="Full name" autocomplete="name" />
+            </div>
+            <div class="cf-group">
+              <label for="cf-phone">Phone / WhatsApp</label>
+              <input id="cf-phone" type="tel" placeholder="+220 xxx xxxx" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="cf-group">
+            <label for="cf-email">Email (optional)</label>
+            <input id="cf-email" type="email" placeholder="you@example.com" autocomplete="email" />
+          </div>
+          <div class="cf-group">
+            <label for="cf-type">Business type</label>
+            <select id="cf-type">
+              <option value="" disabled selected>Select one&hellip;</option>
+              <option>Retail shop / supermarket</option>
+              <option>Market stall / kiosk</option>
+              <option>Distributor / wholesaler</option>
+              <option>Restaurant / laundry service</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="cf-group">
+            <label for="cf-location">Town / area</label>
+            <input id="cf-location" type="text" placeholder="e.g. Serrekunda, Banjul…" />
+          </div>
+          <div class="cf-group">
+            <label for="cf-msg">Anything else?</label>
+            <textarea id="cf-msg" placeholder="Tell us roughly how much you'd need each month, any questions…"></textarea>
+          </div>
+          <button class="btn btn-blue cf-submit" id="cfSubmit" type="button">Send enquiry &rarr;</button>
+        </div>
+
+        <!-- success -->
+        <div class="cf-success" id="cfSuccess">
+          <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <h3>Enquiry sent!</h3>
+          <p>We'll reach out to you on WhatsApp or email within one business day.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -471,6 +565,23 @@
   }
   makeBubbles(document.getElementById('heroBubbles'), 16);
   makeBubbles(document.getElementById('promiseBubbles'), 10);
+
+  // contact form
+  const cfSubmit = document.getElementById('cfSubmit');
+  if(cfSubmit){
+    cfSubmit.addEventListener('click', () => {
+      const name = document.getElementById('cf-name').value.trim();
+      const phone = document.getElementById('cf-phone').value.trim();
+      const type = document.getElementById('cf-type').value;
+      // minimal validation
+      if(!name){ document.getElementById('cf-name').focus(); return; }
+      if(!phone){ document.getElementById('cf-phone').focus(); return; }
+      if(!type){ document.getElementById('cf-type').focus(); return; }
+      // show success
+      document.getElementById('cfForm').style.display = 'none';
+      document.getElementById('cfSuccess').classList.add('show');
+    });
+  }
 </script>
 </body>
 </html>
